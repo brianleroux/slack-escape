@@ -8,6 +8,16 @@ function escapeHTML(txt) {
   return txt.replace(lessThan, '<').replace(greaterThan, '>').replace(ampersand, '&')
 }
 
+function escapeLink(txt) {
+  var slackLink = /(<http:\/\/\w+.\w+\|)(\S+)>/
+  var matches = txt.match(slackLink)
+  if (matches) {
+    var actualLink = matches[2]
+    txt = txt.replace(slackLink, actualLink)
+  }
+  return txt
+}
+
 function escapeEmoji(txt) {
   var maybeEmojiIndex = 0
   var slackIndex = 3
@@ -33,5 +43,5 @@ function escapeEmoji(txt) {
 }
 
 module.exports = function escape(txt) {
-  return escapeHTML(escapeEmoji(txt))
+  return escapeHTML(escapeLink(escapeEmoji(txt)))
 }

@@ -34,3 +34,11 @@ test('escape smiley', t=> {
   t.equal(escapes(bad), good, 'fixed em')
   console.log(escapes(bad))
 })
+
+test('escape link', t=> {
+  t.plan(1)
+  var bad = 'foo <http://brian.io|http://brian.io>'
+  var good = 'foo http://brian.io'
+  t.equal(escapes(bad), good, 'fixed em')
+  console.log(escapes(bad))
+})

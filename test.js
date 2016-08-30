@@ -42,3 +42,19 @@ test('escape link', t=> {
   t.equal(escapes(bad), good, 'fixed em')
   console.log(escapes(bad))
 })
+
+test('escape link with https', t=> {
+  t.plan(1)
+  var bad = '<https://blog.ninlabs.com/2013/01/programmer-interrupted>'
+  var good = 'https://blog.ninlabs.com/2013/01/programmer-interrupted'
+  t.equal(escapes(bad), good, 'fixed it')
+  console.log(escapes(bad))
+})
+
+test('two links', t=> {
+  t.plan(1)
+  var bad = 'blah blah <https://blog.ninlabs.com/2013/01/programmer-interrupted> blah <http://brian.io>'
+  var good = 'blah blah https://blog.ninlabs.com/2013/01/programmer-interrupted blah http://brian.io'
+  t.equal(escapes(bad), good, 'fixed it')
+  console.log(escapes(bad))
+})

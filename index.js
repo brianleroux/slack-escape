@@ -9,11 +9,15 @@ function escapeHTML(txt) {
 }
 
 function escapeLink(txt) {
-  var slackLink = /(<http:\/\/\w+.\w+\|)(\S+)>/
+  var slackLink = /(<((http|https):\/\/\S+\|?))>/
   var matches = txt.match(slackLink)
   if (matches) {
-    var actualLink = matches[2]
-    txt = txt.replace(slackLink, actualLink)
+    var actualLink = matches[2] || ''
+    // checks for <http://foo.com|http://foo.com> type escape
+    if (actualLink.indexOf('|') > -1) {
+      actualLink = actualLink.split('|')[0]
+    }
+    txt = escapeLink(txt.replace(slackLink, actualLink)) // recursion!
   }
   return txt
 }

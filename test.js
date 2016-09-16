@@ -58,3 +58,11 @@ test('two links', t=> {
   t.equal(escapes(bad), good, 'fixed it')
   console.log(escapes(bad))
 })
+
+test('escape a phone number', t=> {
+  t.plan(1)
+  var bad = 'Call Topo re. backpack at <tel:(303)297-3802|(303) 297-3802>'
+  var good = 'Call Topo re. backpack at (303) 297-3802'
+  t.equal(escapes(bad), good, 'fixed it')
+  console.log(escapes(bad))
+})

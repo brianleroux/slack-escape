@@ -9,7 +9,7 @@ function escapeHTML(txt) {
 }
 
 function escapeLink(txt) {
-  var slackLink = /(<((http|https):\/\/\S+\|?))>/
+  var slackLink = /(<((http|https|tel):\/\/\S+\|?))>/
   var matches = txt.match(slackLink)
   if (matches) {
     var actualLink = matches[2] || ''
@@ -18,6 +18,20 @@ function escapeLink(txt) {
       actualLink = actualLink.split('|')[0]
     }
     txt = escapeLink(txt.replace(slackLink, actualLink)) // recursion!
+  }
+  return txt
+}
+
+function escapeTel(txt) {
+  var slackLink = /<tel:(\S+)\|(...+)>/
+  var matches = txt.match(slackLink)
+  if (matches) {
+    var actualLink = matches[2] || ''
+    // checks for <http://foo.com|http://foo.com> type escape
+    if (actualLink.indexOf('|') > -1) {
+      actualLink = actualLink.split('|')[0]
+    }
+    txt = escapeTel(txt.replace(slackLink, actualLink)) // recursion!
   }
   return txt
 }
@@ -47,5 +61,5 @@ function escapeEmoji(txt) {
 }
 
 module.exports = function escape(txt) {
-  return escapeHTML(escapeLink(escapeEmoji(txt)))
+  return escapeHTML(escapeTel(escapeLink(escapeEmoji(txt))))
 }
